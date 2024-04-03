@@ -13,13 +13,6 @@ st.write('The name on your Smoothie will be', name_on_order)
 cnx = st.connection("snowflake")
 session=cnx.session()
 
-##option = st.selectbox(
-##    'What is your favorite fruit?',
-##    ('Banana', 'Strawberry', 'Peaches'))
-
-##st.write('You favorite fruit is:', option)
-
-
 ## Display the Fruit Options List in Your Streamlit in Snowflake (SiS) App.
 #session = get_active_session()
 my_dataframe=session.table("smoothies.public.fruit_options").select(col('Fruit_Name'))
@@ -48,5 +41,8 @@ if ingredients_list:
         session.sql(my_insert_stmt).collect()
         st.success('Your Smoothie is ordered!', icon="✅")
 
-
-
+# New section to display fruityvice nutrition information
+import request
+fruityvice_response = requests.get("https://fruityvice.com/api/fruit/watermelon")
+st.text(fruityvice_response.json()
+fv_df = st.dataframe(data=fruityvice_response.json(), use_container_width=True)
